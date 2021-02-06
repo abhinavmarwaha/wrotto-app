@@ -4,6 +4,14 @@ Mood fromEmoji(String emoji) {
   switch (emoji) {
     case '😢':
       return Mood.crying;
+    case '🙁':
+      return Mood.sad;
+    case '😐':
+      return Mood.neutral;
+    case '🙂':
+      return Mood.happy;
+    case '😁':
+      return Mood.grin;
     default:
       return null;
   }

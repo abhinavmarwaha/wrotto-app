@@ -155,19 +155,27 @@ class _StatsScreenState extends State<StatsScreen> {
               barsSpace: 1,
               barRods: [
                 BarChartRodData(
-                    y: provider
-                        .journalEntriesbyDate[
-                            DateTime(_today.year, _today.month - i, _today.day)]
-                        .length
-                        .toDouble(),
+                    y: provider.journalEntriesbyDate[DateTime(
+                                _today.year, _today.month - i, _today.day)] !=
+                            null
+                        ? provider
+                            .journalEntriesbyDate[DateTime(
+                                _today.year, _today.month - i, _today.day)]
+                            .length
+                            .toDouble()
+                        : 0,
                     rodStackItems: [
                       BarChartRodStackItem(
                           0,
-                          provider
-                              .journalEntriesbyDate[DateTime(
-                                  _today.year, _today.month - i, _today.day)]
-                              .length
-                              .toDouble(),
+                          provider.journalEntriesbyDate[DateTime(_today.year,
+                                      _today.month - i, _today.day)] !=
+                                  null
+                              ? provider
+                                  .journalEntriesbyDate[DateTime(_today.year,
+                                      _today.month - i, _today.day)]
+                                  .length
+                                  .toDouble()
+                              : 0,
                           Theme.of(context).accentColor),
                     ],
                     borderRadius: const BorderRadius.all(Radius.zero)),

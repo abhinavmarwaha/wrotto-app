@@ -31,6 +31,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     print('CALLBACK: _onDaySelected');
     setState(() {
       _selectedEvents = List<JournalEntry>.from(events);
+      print(_selectedEvents.length);
     });
   }
 
@@ -97,7 +98,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   Widget _dayBuilder(
       DateTime date, List<dynamic> events, bool today, bool selected) {
-    final Color _color = Color(0xFF0984FD).withOpacity(0.25);
     return Center(
       child: Container(
         width: 45,

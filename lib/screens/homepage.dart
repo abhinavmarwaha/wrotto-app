@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wrotto/medias_screen.dart';
+import 'package:wrotto/screens/medias_screen.dart';
 import 'package:wrotto/screens/calendar_screen.dart';
 import 'package:wrotto/screens/entries_screen/entries_screen.dart';
 import 'package:wrotto/screens/map_screens/map_screen.dart';
@@ -45,8 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     EntriesScreen(),
                     CalendarScreen(),
-                    MediasScreen(),
                     MapScreen(),
+                    MediasScreen(),
                     StatsScreen(),
                   ]))),
       bottomNavigationBar: BottomNavigationBar(

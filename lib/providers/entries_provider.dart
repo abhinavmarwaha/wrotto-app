@@ -43,7 +43,7 @@ class EntriesProvider with ChangeNotifier {
       _journalEntriesAll.addAll(journalEntries);
 
       Mood.values.forEach((mood) {
-        journalEntriesbyByMood[mood] = [];
+        _journalEntriesbyByMood[mood] = [];
       });
 
       _journalEntriesAll.forEach((entry) {
@@ -80,15 +80,14 @@ class EntriesProvider with ChangeNotifier {
 
   // Journal Entries
 
-  Future insertJournalEntry(JournalEntry journalEntry) async {
+  Future<void> insertJournalEntry(JournalEntry journalEntry) async {
+    await _dbHelper.insertJournalEntry(journalEntry);
+    _journalEntriesAll.add(journalEntry);
     for (int i = 0; i < journalEntry.tags.length; i++) {
-      await _dbHelper.insertJournalEntry(journalEntry);
-      if (_journalEntriesbyTag[journalEntry.tags[i]] == null)
-        _journalEntriesbyTag[journalEntry.tags[i]] = [];
+      // if (_journalEntriesbyTag[journalEntry.tags[i]] == null)
+      //   _journalEntriesbyTag[journalEntry.tags[i]] = [];
       _journalEntriesbyTag[journalEntry.tags[i]].add(journalEntry);
-      _journalEntriesAll.add(journalEntry);
     }
-
     notifyListeners();
   }
 

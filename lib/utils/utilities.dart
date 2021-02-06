@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
+import 'package:wrotto/constants/strings.dart';
 
 class Utilities {
   static showToast(String msg) {
@@ -22,4 +25,32 @@ class Utilities {
       Vibration.vibrate(duration: 70, amplitude: 10);
     }
   }
+
+  static String beautifulDate(DateTime date) {
+    return weekdays[date.weekday] +
+        " , " +
+        months[date.month] +
+        " " +
+        date.day.toString() +
+        " , " +
+        date.year.toString() +
+        " at " +
+        date.hour.toString() +
+        ":" +
+        date.minute.toString();
+  }
+
+  static Future<void> launchInWebViewOrVC(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 }

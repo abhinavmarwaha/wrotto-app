@@ -15,7 +15,7 @@ class DbHelper {
       join(await getDatabasesPath(), 'app_database.db'),
       onCreate: (db, version) {
         db.execute(
-            "CREATE TABLE journalEntry(id INTEGER PRIMARY KEY, title TEXT, date INTEGER, mood TEXT, latitude TEXT, longitude TEXT, medias TEXT, tags TEXT);");
+            "CREATE TABLE journalEntry(id INTEGER PRIMARY KEY, title TEXT, text TEXT, date INTEGER, mood TEXT, latitude REAL, longitude REAL, locationDisplayName TEXT, medias TEXT, tags TEXT, synchronised INTEGER, lastModified INTEGER);");
         db.execute("CREATE TABLE tags(id INTEGER PRIMARY KEY, name TEXT); ");
         db.insert(
           TAGS,

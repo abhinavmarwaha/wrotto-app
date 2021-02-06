@@ -10,6 +10,7 @@ class JournalEntry {
   final Mood mood;
   final double latitude;
   final double longitude;
+  final String locationDisplayName;
   final List<String> medias; // not allowed more than 4
   final List<String> tags; // not allowed more than 4
   final bool synchronised;
@@ -23,6 +24,7 @@ class JournalEntry {
       this.mood,
       this.latitude,
       this.longitude,
+      this.locationDisplayName,
       this.medias,
       this.tags,
       this.synchronised,
@@ -36,6 +38,7 @@ class JournalEntry {
     Mood mood,
     String latitude,
     String longitude,
+    String locationDisplayName,
     List<String> medias,
     List<String> tags,
     bool synchronised,
@@ -49,6 +52,7 @@ class JournalEntry {
         mood: mood ?? this.mood,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
+        locationDisplayName: locationDisplayName ?? this.locationDisplayName,
         medias: medias ?? this.medias,
         tags: tags ?? this.tags,
         synchronised: synchronised ?? this.synchronised,
@@ -64,6 +68,7 @@ class JournalEntry {
       'mood': mood?.toEmoji(),
       'latitude': latitude,
       'longitude': longitude,
+      'locationDisplayName': locationDisplayName,
       'medias': medias.join(","),
       'tags': tags.join(","),
       'synchronised': synchronised ? 1 : 0,
@@ -82,6 +87,7 @@ class JournalEntry {
         mood: fromEmoji(map['mood']),
         latitude: map['latitude'],
         longitude: map['longitude'],
+        locationDisplayName: map['locationDisplayName'],
         medias: map['medias'].toString().split(","),
         tags: map['tags'].toString().split(","),
         synchronised: map['synchronised'] == 1,
