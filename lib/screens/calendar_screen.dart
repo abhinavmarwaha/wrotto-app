@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wrotto/models/journal_entry.dart';
 import 'package:wrotto/providers/entries_provider.dart';
+import 'package:wrotto/screens/widgets/entry_card.dart';
+import 'package:wrotto/utils/utilities.dart';
 
 class CalendarScreen extends StatefulWidget {
   _CalendarScreenState createState() => _CalendarScreenState();
@@ -37,60 +39,66 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   void _onCalendarCreated(
       DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onCalendarCreated');
+    _selectedEvents = Provider.of<EntriesProvider>(context, listen: false)
+        .journalEntriesbyDate[Utilities.minimalDate(DateTime.now())];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<EntriesProvider>(
-        builder: (context, provider, child) => Padding(
-          padding: MediaQuery.of(context).padding,
-          child: Card(
-            elevation: 4,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: TableCalendar(
-              calendarController: _calendarController,
-              events: provider.journalEntriesbyDate,
-              initialSelectedDay: DateTime.now(),
-              dayHitTestBehavior: HitTestBehavior.opaque,
-              initialCalendarFormat: CalendarFormat.month,
-              formatAnimation: FormatAnimation.slide,
-              startingDayOfWeek: StartingDayOfWeek.sunday,
-              availableGestures: AvailableGestures.all,
-              availableCalendarFormats: const {
-                CalendarFormat.month: '',
-              },
-              calendarStyle: CalendarStyle(
-                outsideDaysVisible: false,
+        builder: (context, provider, child) => SingleChildScrollView(
+                  child: Column(children: [
+            Padding(
+              padding: MediaQuery.of(context).padding,
+              child: Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                child: TableCalendar(
+                  calendarController: _calendarController,
+                  events: provider.journalEntriesbyDate,
+                  initialSelectedDay: Utilities.minimalDate(DateTime.now()),
+                  dayHitTestBehavior: HitTestBehavior.opaque,
+                  initialCalendarFormat: CalendarFormat.month,
+                  formatAnimation: FormatAnimation.slide,
+                  startingDayOfWeek: StartingDayOfWeek.sunday,
+                  availableGestures: AvailableGestures.all,
+                  availableCalendarFormats: const {
+                    CalendarFormat.month: '',
+                  },
+                  calendarStyle: CalendarStyle(
+                    outsideDaysVisible: false,
+                  ),
+                  headerStyle: HeaderStyle(
+                    centerHeaderTitle: true,
+                  ),
+                  onDaySelected: _onDaySelected,
+                  onCalendarCreated: _onCalendarCreated,
+                  builders: CalendarBuilders(
+                      dowWeekendBuilder: (context, weekend) => Text(
+                            weekend,
+                            style: TextStyle(color: greyColor),
+                            textAlign: TextAlign.center,
+                          ),
+                      dowWeekdayBuilder: (context, weekday) => Text(
+                            weekday,
+                            style: TextStyle(color: greyColor),
+                            textAlign: TextAlign.center,
+                          ),
+                      selectedDayBuilder: (context, date, events) =>
+                          _dayBuilder(date, events, false, true),
+                      todayDayBuilder: (context, date, events) =>
+                          _dayBuilder(date, events, true, false),
+                      markersBuilder: (context, date, events, holidays) =>
+                          <Widget>[],
+                      dayBuilder: (context, date, events) =>
+                          _dayBuilder(date, events, false, false)),
+                ),
               ),
-              headerStyle: HeaderStyle(
-                centerHeaderTitle: true,
-              ),
-              onDaySelected: _onDaySelected,
-              onCalendarCreated: _onCalendarCreated,
-              builders: CalendarBuilders(
-                  dowWeekendBuilder: (context, weekend) => Text(
-                        weekend,
-                        style: TextStyle(color: greyColor),
-                        textAlign: TextAlign.center,
-                      ),
-                  dowWeekdayBuilder: (context, weekday) => Text(
-                        weekday,
-                        style: TextStyle(color: greyColor),
-                        textAlign: TextAlign.center,
-                      ),
-                  selectedDayBuilder: (context, date, events) =>
-                      _dayBuilder(date, events, false, true),
-                  todayDayBuilder: (context, date, events) =>
-                      _dayBuilder(date, events, true, false),
-                  markersBuilder: (context, date, events, holidays) =>
-                      <Widget>[],
-                  dayBuilder: (context, date, events) =>
-                      _dayBuilder(date, events, false, false)),
             ),
-          ),
+            if (_selectedEvents.length != 0) ..._buildEvents()
+          ]),
         ),
       ),
     );
@@ -150,5 +158,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ]),
       ),
     );
+  }
+
+  List<Widget> _buildEvents() {
+    return _selectedEvents
+        .map((entry) => EntryCard(
+              journalEntry: entry,
+            ))
+        .toList();
   }
 }

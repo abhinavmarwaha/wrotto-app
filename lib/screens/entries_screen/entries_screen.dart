@@ -1,13 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wrotto/providers/entries_provider.dart';
-import 'package:wrotto/screens/entries_screen/entry_view.dart';
 import 'package:wrotto/screens/entries_screen/new_entry_screen.dart';
 import 'package:wrotto/screens/settings_screen.dart';
+import 'package:wrotto/screens/widgets/entry_card.dart';
 import 'package:wrotto/utils/utilities.dart';
-import 'package:wrotto/models/mood.dart';
 
 class EntriesScreen extends StatefulWidget {
   _EntriesScreenState createState() => _EntriesScreenState();
@@ -108,102 +105,18 @@ class _EntriesScreenState extends State<EntriesScreen> {
                                     scrollDirection: Axis.horizontal,
                                   ),
                                   GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        showTagAddDialog(context, provider);
+                                      },
                                       child: Center(child: Icon(Icons.add))),
                                 ]),
                           )),
                       Expanded(
                         child: ListView.builder(
-                          itemBuilder: (context, index) => GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (ctx) => EntryView(
-                                          journalEntry:
-                                              provider.getjournalEntries(
-                                                  selectedTag)[index])));
-                            },
-                            child: Card(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (provider
-                                          .getjournalEntries(selectedTag)[index]
-                                          .medias
-                                          .length !=
-                                      0)
-                                    SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                10,
-                                        child: Image.file(
-                                          File(provider
-                                              .getjournalEntries(
-                                                  selectedTag)[index]
-                                              .medias
-                                              .first),
-                                          alignment: FractionalOffset.center,
-                                          fit: BoxFit.cover,
-                                        )),
-                                  Row(children: [
-                                    Text(
-                                      Utilities.beautifulDate(
-                                        provider
-                                            .getjournalEntries(
-                                                selectedTag)[index]
-                                            .date,
-                                      ),
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                    SizedBox(
-                                      width: 40,
-                                      height: 20,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: provider
-                                            .getjournalEntries(
-                                                selectedTag)[index]
-                                            .tags
-                                            .length,
-                                        itemBuilder: (context, _index) => Card(
-                                          child: Text(provider
-                                              .getjournalEntries(
-                                                  selectedTag)[index]
-                                              .tags[_index]),
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      provider
-                                          .getjournalEntries(selectedTag)[index]
-                                          .mood
-                                          .toEmoji(),
-                                      style: TextStyle(fontSize: 16),
-                                    )
-                                  ]),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          4 /
-                                          5,
-                                      child: Text(
-                                        provider
-                                            .getjournalEntries(
-                                                selectedTag)[index]
-                                            .title,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                          itemBuilder: (context, index) => EntryCard(
+                                journalEntry: provider
+                                    .getjournalEntries(selectedTag)[index],
                               ),
-                            ),
-                          ),
                           itemCount:
                               provider.getjournalEntries(selectedTag).length,
                         ),

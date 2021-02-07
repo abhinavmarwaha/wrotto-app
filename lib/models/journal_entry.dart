@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:wrotto/models/mood.dart';
 
 class JournalEntry {

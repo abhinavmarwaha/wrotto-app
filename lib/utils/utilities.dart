@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wrotto/constants/strings.dart';
@@ -27,7 +26,7 @@ class Utilities {
   }
 
   static String beautifulDate(DateTime date) {
-    return weekdays[date.weekday] +
+    return weekdays[date.weekday - 1] +
         " , " +
         months[date.month] +
         " " +
@@ -52,5 +51,4 @@ class Utilities {
       throw 'Could not launch $url';
     }
   }
-
 }

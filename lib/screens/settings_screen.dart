@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:wrotto/constants/strings.dart';
+import 'package:wrotto/providers/auth_provider.dart';
 import 'package:wrotto/services/theme_changer.dart';
 import 'package:wrotto/utils/utilities.dart';
 
@@ -11,7 +13,9 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _darkMode = false;
-  bool _zenReader = false;
+  bool _authBool = false;
+
+  LocalAuthentication _localAuthentication;
 
   @override
   void initState() {
@@ -20,6 +24,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         _darkMode = value;
       });
     });
+    _localAuthentication = LocalAuthentication();
+
+    Provider.of<AuthProvider>(context, listen: false)
+        .getSecMode()
+        .then((value) => _authBool = value);
 
     super.initState();
   }
@@ -60,27 +69,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
-          Card(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.horizontal_split),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text("Fingerprint Lock"),
-                  Spacer(),
-                  Switch(
-                    onChanged: (val) {
-                      setState(() {
-                        _zenReader = val;
-                      });
-                    },
-                    value: _zenReader,
-                  )
-                ],
+          Consumer<AuthProvider>(
+            builder: (context, provider, child) => Card(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.fingerprint),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text("Fingerprint Lock"),
+                    Spacer(),
+                    Switch(
+                      onChanged: (val) {
+                        fingerprintOn(provider, val);
+                      },
+                      value: _authBool,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -121,6 +130,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ],
       ),
     );
+  }
+
+  fingerprintOn(AuthProvider provider, bool _secMode) async {
+    bool didAuthenticate = await _localAuthentication
+        .authenticateWithBiometrics(localizedReason: "");
+    setState(() {
+      if (didAuthenticate) {
+        _authBool = _secMode;
+        provider.setSecMode(_authBool);
+      }
+    });
   }
 
   openFeaturesForm() {

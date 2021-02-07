@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:wrotto/constants/strings.dart';
 import 'package:wrotto/models/journal_entry.dart';
 import 'package:wrotto/models/mood.dart';
 import 'package:wrotto/services/db_helper.dart';
@@ -19,6 +18,8 @@ class EntriesProvider with ChangeNotifier {
   Map<String, List<JournalEntry>> _journalEntriesbyTag = {};
   Map<Mood, List<JournalEntry>> _journalEntriesbyByMood = {};
   List<JournalEntry> _journalEntriesAll = [];
+  List<JournalEntry> _journalEntriesHaveLocation = [];
+  List<JournalEntry> _journalEntriesHaveMedia = [];
   Map<DateTime, List<JournalEntry>> _journalEntriesbyDate = {};
   List<String> _tags;
 
@@ -28,10 +29,21 @@ class EntriesProvider with ChangeNotifier {
   Map<Mood, List<JournalEntry>> get journalEntriesbyByMood =>
       _journalEntriesbyByMood;
   List<JournalEntry> get journalEntriesAll => _journalEntriesAll;
+  List<JournalEntry> get journalEntriesHaveLocation =>
+      _journalEntriesHaveLocation;
+  List<JournalEntry> get journalEntriesHaveMedia => _journalEntriesHaveMedia;
 
   List<double> _moodPercentages = [];
 
   List<double> get moodPercentages => _moodPercentages;
+
+  initMoodPercentages() {
+    _moodPercentages.clear();
+    final totalMood = _journalEntriesAll.length;
+    journalEntriesbyByMood.forEach((key, value) {
+      _moodPercentages.add(value.length / totalMood * 100);
+    });
+  }
 
   Future _init() async {
     if (!initilised) {
@@ -53,12 +65,16 @@ class EntriesProvider with ChangeNotifier {
         _journalEntriesbyDate[minimilesedDate].add(entry);
 
         _journalEntriesbyByMood[entry.mood].add(entry);
+
+        if (entry.latitude != null &&
+            entry.longitude != null &&
+            entry.locationDisplayName != null)
+          _journalEntriesHaveLocation.add(entry);
+        if (entry.medias.length != 0 && entry.medias.first.compareTo("") != 0)
+          _journalEntriesHaveMedia.add(entry);
       });
 
-      final totalMood = _journalEntriesAll.length;
-      journalEntriesbyByMood.forEach((key, value) {
-        _moodPercentages.add(value.length / totalMood * 100);
-      });
+      initMoodPercentages();
 
       _tags.forEach((tag) {
         if (_journalEntriesbyTag[tag] == null) _journalEntriesbyTag[tag] = [];
@@ -69,6 +85,8 @@ class EntriesProvider with ChangeNotifier {
           return false;
         }));
       });
+
+      print(journalEntriesAll.first.tags.join(","));
       initilised = true;
       notifyListeners();
     }
@@ -80,23 +98,76 @@ class EntriesProvider with ChangeNotifier {
 
   // Journal Entries
 
-  Future<void> insertJournalEntry(JournalEntry journalEntry) async {
-    await _dbHelper.insertJournalEntry(journalEntry);
+  addEntryToLists(JournalEntry journalEntry) {
     _journalEntriesAll.add(journalEntry);
+
     for (int i = 0; i < journalEntry.tags.length; i++) {
-      // if (_journalEntriesbyTag[journalEntry.tags[i]] == null)
-      //   _journalEntriesbyTag[journalEntry.tags[i]] = [];
       _journalEntriesbyTag[journalEntry.tags[i]].add(journalEntry);
     }
+
+    if (journalEntry.latitude != null &&
+        journalEntry.longitude != null &&
+        journalEntry.locationDisplayName != null &&
+        journalEntry.locationDisplayName.compareTo("") != 0)
+      _journalEntriesHaveLocation.add(journalEntry);
+
+    if (journalEntry.medias.length != 0 &&
+        journalEntry.medias.first.compareTo("") != 0)
+      _journalEntriesHaveMedia.add(journalEntry);
+
+    _journalEntriesbyByMood[journalEntry.mood].add(journalEntry);
+    initMoodPercentages();
+
+    if (_journalEntriesbyDate[Utilities.minimalDate(journalEntry.date)] == null)
+      _journalEntriesbyDate[Utilities.minimalDate(journalEntry.date)] = [];
+    _journalEntriesbyDate[Utilities.minimalDate(journalEntry.date)]
+        .add(journalEntry);
+  }
+
+  Future<void> insertJournalEntry(JournalEntry journalEntry) async {
+    await _dbHelper.insertJournalEntry(journalEntry);
+    addEntryToLists(journalEntry);
     notifyListeners();
+  }
+
+  Future<void> editJournalEntry(JournalEntry journalEntry) async {
+    await _dbHelper.editJournalEntry(journalEntry);
+
+    deleteEntryFromLists(journalEntry);
+    addEntryToLists(journalEntry);
+
+    notifyListeners();
+  }
+
+  void deleteEntryFromLists(JournalEntry journalEntry) {
+    if (journalEntry.tags.first.compareTo("") != 0)
+      for (int i = 0; i < journalEntry.tags.length; i++) {
+        _journalEntriesbyTag[journalEntry.tags[i]].remove(journalEntry);
+      }
+    _journalEntriesAll.remove(journalEntry);
+
+    if (journalEntry.latitude != null &&
+        journalEntry.longitude != null &&
+        journalEntry.locationDisplayName != null &&
+        journalEntry.locationDisplayName.compareTo("") != 0)
+      _journalEntriesHaveLocation.remove(journalEntry);
+
+    if (journalEntry.medias.length != 0 &&
+        journalEntry.medias.first.compareTo("") != 0)
+      _journalEntriesHaveMedia.remove(journalEntry);
+
+    _journalEntriesbyByMood[journalEntry.mood].remove(journalEntry);
+
+    initMoodPercentages();
+
+    _journalEntriesbyDate[Utilities.minimalDate(journalEntry.date)]
+        .remove(journalEntry);
   }
 
   Future deleteJournalEntry(JournalEntry journalEntry) async {
     await _dbHelper.deleteJournalEntry(journalEntry.id);
-    for (int i = 0; i < journalEntry.tags.length; i++) {
-      _journalEntriesbyTag[journalEntry.tags[i]].remove(journalEntry);
-      _journalEntriesAll.remove(journalEntry);
-    }
+
+    deleteEntryFromLists(journalEntry);
 
     notifyListeners();
   }
@@ -111,9 +182,13 @@ class EntriesProvider with ChangeNotifier {
   Future deleteTag(String tag) async {
     await _dbHelper.deleteTag(tag);
     _tags.remove(tag);
-    // _savedLaterItems[cat].clear();
-    // _savedLaterItemsAll
-    //     .removeWhere((element) => element.cat.compareTo(cat) == 0);
+    for (int i = 0; i < _journalEntriesbyTag[tag].length; i++) {
+      final entry = _journalEntriesbyTag[tag][i];
+      entry.tags.remove(tag);
+      await _dbHelper.editJournalEntry(entry);
+    }
+    _journalEntriesbyTag[tag] = null;
+
     notifyListeners();
   }
 
@@ -126,10 +201,10 @@ class EntriesProvider with ChangeNotifier {
       final journalEntry = _journalEntriesbyTag[tagPrev][i];
       journalEntry.tags.remove(tagPrev);
       journalEntry.tags.add(tagNew);
-      _dbHelper.editJournalEntry(journalEntry);
+      await _dbHelper.editJournalEntry(journalEntry);
       _journalEntriesbyTag[tagNew].add(journalEntry);
     }
-    _journalEntriesbyTag[tagPrev].clear();
+    _journalEntriesbyTag[tagPrev] = null;
     notifyListeners();
   }
 }

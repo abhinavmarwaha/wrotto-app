@@ -17,28 +17,36 @@ class _MediasScreeenState extends State<MediasScreen> {
         body: Padding(
       padding: MediaQuery.of(context).padding,
       child: Consumer<EntriesProvider>(
-        builder: (context, provider, child) => GridView.builder(
-            itemCount: provider.journalEntriesAll.length,
-            scrollDirection: Axis.horizontal,
-            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 4)),
-            itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (ctx) => EntryView(
-                                journalEntry:
-                                    provider.journalEntriesAll[index])));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.file(
-                        File(provider.journalEntriesAll[index].medias.first)),
-                  ),
-                )),
+        builder: (context, provider, child) =>
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Media", style: TextStyle(fontSize: 36)),
+          ),
+          Expanded(
+            child: GridView.builder(
+                itemCount: provider.journalEntriesHaveMedia.length,
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 2.6)),
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => EntryView(
+                                    journalEntry: provider
+                                        .journalEntriesHaveMedia[index])));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.file(File(provider
+                            .journalEntriesHaveMedia[index].medias.first)),
+                      ),
+                    )),
+          ),
+        ]),
       ),
     ));
   }

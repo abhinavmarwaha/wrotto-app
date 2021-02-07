@@ -134,8 +134,7 @@ class DbHelper {
     final db = await getdb;
 
     Batch batch = db.batch();
-    batch.delete(JOURNALENTRY, where: "tag == ?", whereArgs: [name]);
-    batch.delete(TAGS, where: "tag == ?", whereArgs: [name]);
+    batch.delete(TAGS, where: "name == ?", whereArgs: [name]);
     await batch.commit();
   }
 

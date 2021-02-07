@@ -14,13 +14,16 @@ import 'package:wrotto/screens/entries_screen/entry_view.dart';
 import 'package:wrotto/utils/utilities.dart';
 
 class NewEntryScreen extends StatefulWidget {
+  const NewEntryScreen({Key key, this.journalEntry}) : super(key: key);
+
+  final JournalEntry journalEntry;
   _NewEntryScreenState createState() => _NewEntryScreenState();
 }
 
 class _NewEntryScreenState extends State<NewEntryScreen> {
   TextEditingController _textController;
   TextEditingController _titleController;
-  DateTime _today;
+  DateTime _dateTime;
   List<String> selectedTags;
   Mood selectedMood;
   List<String> files;
@@ -30,14 +33,32 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
     super.initState();
     _textController = TextEditingController();
     _titleController = TextEditingController();
-    selectedTags = [];
-    files = [];
-    selectedMood = Mood.neutral;
-    _today = DateTime.now();
+    if (widget.journalEntry == null) {
+      selectedTags = [];
+      files = [];
+      selectedMood = Mood.neutral;
+      _dateTime = DateTime.now();
+    } else {
+      _textController.text = widget.journalEntry.text;
+      _titleController.text = widget.journalEntry.title;
+
+      selectedTags = [];
+      files = [];
+      selectedTags.addAll(widget.journalEntry.tags);
+      files.addAll(widget.journalEntry.medias);
+      _dateTime = widget.journalEntry.date;
+      selectedMood = widget.journalEntry.mood;
+      if (widget.journalEntry.longitude != null) {
+        _pickedLocation = {};
+        _pickedLocation["latlng"] =
+            LatLng(widget.journalEntry.latitude, widget.journalEntry.longitude);
+        _displayLocationName = widget.journalEntry.locationDisplayName;
+      }
+    }
   }
 
   Map _pickedLocation = {};
-  String _displayName = "";
+  String _displayLocationName = "";
 
   Future getLocationWithNominatim() async {
     Map result = await showDialog(
@@ -60,7 +81,7 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
       );
       setState(() {
         _pickedLocation = result;
-        _displayName = reverseSearchResult.displayName;
+        _displayLocationName = reverseSearchResult.displayName;
       });
     } else {
       return;
@@ -83,8 +104,9 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EntriesProvider>(
-      builder: (context, provider, child) => Scaffold(
+    return Consumer<EntriesProvider>(builder: (context, provider, child) {
+      print(provider.tags.join(","));
+      return Scaffold(
           // resizeToAvoidBottomInset: false,
           body: Padding(
         padding: MediaQuery.of(context).padding,
@@ -95,76 +117,89 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
               _pickedLocation != null
                   ? Expanded(
                       flex: 1,
-                      child: Text(_displayName),
+                      child: Text(_displayLocationName),
                     )
                   : Container(),
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            Utilities.vibrate();
-                            if (selectedTags.contains(provider.tags[index]))
-                              selectedTags.remove(provider.tags[index]);
-                            else
-                              selectedTags.add(provider.tags[index]);
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: provider.tags[index].compareTo("All") == 0
-                              ? null
-                              : Text(
-                                  provider.tags[index],
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: selectedTags
-                                              .contains(provider.tags[index])
-                                          ? Colors.black
-                                          : Colors.grey),
-                                ),
-                        )),
-                    itemCount: provider.tags.length,
-                    scrollDirection: Axis.horizontal,
+              if (provider.tags.length != 0)
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        index = index + 1;
+                        print(index);
+                        return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                Utilities.vibrate();
+                                if (selectedTags.contains(provider.tags[index]))
+                                  selectedTags.remove(provider.tags[index]);
+                                else
+                                  selectedTags.add(provider.tags[index]);
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                provider.tags[index],
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: selectedTags
+                                            .contains(provider.tags[index])
+                                        ? Colors.black
+                                        : Colors.grey),
+                              ),
+                            ));
+                      },
+                      itemCount: provider.tags.length - 1,
+                      scrollDirection: Axis.horizontal,
+                    ),
                   ),
                 ),
-              ),
               Expanded(
                 flex: 2,
                 child: Row(
                   children: [
-                    Icon(Icons.delete),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Text(Utilities.beautifulDate(_today)),
+                    Text(Utilities.beautifulDate(_dateTime)),
                     Spacer(),
                     GestureDetector(
                       onTap: () {
                         final journalEntry = JournalEntry(
-                            date: _today,
+                            id: widget.journalEntry?.id,
+                            date: _dateTime,
                             text: _textController.text,
                             title: _titleController.text,
                             tags: selectedTags,
                             lastModified: DateTime.now(),
-                            latitude: _pickedLocation["latlng"].latitude,
-                            longitude: _pickedLocation["latlng"].longitude,
-                            locationDisplayName: _displayName,
+                            latitude: _pickedLocation["latlng"]?.latitude,
+                            longitude: _pickedLocation["latlng"]?.longitude,
+                            locationDisplayName: _displayLocationName,
                             medias: files,
                             mood: selectedMood,
                             synchronised: false);
 
-                        provider.insertJournalEntry(journalEntry).then((value) {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (ctx) =>
-                                      EntryView(journalEntry: journalEntry)));
-                        });
+                        if (widget.journalEntry != null) {
+                          provider.editJournalEntry(journalEntry).then((value) {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) =>
+                                        EntryView(journalEntry: journalEntry)));
+                          });
+                        } else {
+                          provider
+                              .insertJournalEntry(journalEntry)
+                              .then((value) {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) =>
+                                        EntryView(journalEntry: journalEntry)));
+                          });
+                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -274,7 +309,9 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                         },
                         child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: files.length != 0
+                            child: files != null &&
+                                    files.length != 0 &&
+                                    files.first.compareTo("") != 0
                                 ? SizedBox(
                                     width: 24,
                                     child: Image.file(File(files.first)),
@@ -290,7 +327,7 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
             ],
           ),
         ),
-      )),
-    );
+      ));
+    });
   }
 }

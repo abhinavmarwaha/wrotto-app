@@ -36,6 +36,9 @@ dependencies:
   permission_handler: ^5.1.0+2
   url_launcher: ^5.7.10
 
+  # security
+  local_auth: ^0.6.3+4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -49,3 +52,6 @@ flutter_icons:
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - assets/text.png

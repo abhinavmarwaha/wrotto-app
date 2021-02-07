@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wrotto/screens/medias_screen.dart';
 import 'package:wrotto/screens/calendar_screen.dart';
 import 'package:wrotto/screens/entries_screen/entries_screen.dart';
@@ -33,63 +34,69 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox.expand(
-          child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-              child: PageView(
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() => _currentIndex = index);
-                  },
-                  children: <Widget>[
-                    EntriesScreen(),
-                    CalendarScreen(),
-                    MapScreen(),
-                    MediasScreen(),
-                    StatsScreen(),
-                  ]))),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() => _currentIndex = index);
-          _pageController.animateToPage(index,
-              duration: Duration(milliseconds: 100), curve: Curves.ease);
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.edit,
-              color: Colors.black,
+    return WillPopScope(
+      onWillPop: () {
+        return SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      },
+      child: Scaffold(
+        body: SizedBox.expand(
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                child: PageView(
+                    physics: NeverScrollableScrollPhysics(),
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() => _currentIndex = index);
+                    },
+                    children: <Widget>[
+                      EntriesScreen(),
+                      CalendarScreen(),
+                      MapScreen(),
+                      MediasScreen(),
+                      StatsScreen(),
+                    ]))),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() => _currentIndex = index);
+            _pageController.animateToPage(index,
+                duration: Duration(milliseconds: 100), curve: Curves.ease);
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.black,
+              ),
+              label: "Entries",
             ),
-            label: "Entries",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.calendar_today,
-              color: Colors.black,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.calendar_today,
+                color: Colors.black,
+              ),
+              label: "Calendar",
             ),
-            label: "Calendar",
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.map,
-                color: Colors.black,
-              ),
-              label: "Map"),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.perm_media,
-                color: Colors.black,
-              ),
-              label: "Media"),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.graphic_eq,
-                color: Colors.black,
-              ),
-              label: "Stats"),
-        ],
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.map,
+                  color: Colors.black,
+                ),
+                label: "Map"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.perm_media,
+                  color: Colors.black,
+                ),
+                label: "Media"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.graphic_eq,
+                  color: Colors.black,
+                ),
+                label: "Stats"),
+          ],
+        ),
       ),
     );
   }
