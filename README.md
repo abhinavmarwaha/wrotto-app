@@ -1,16 +1,56 @@
-# wrotto
+<br>
 
-Open Source Journal App with Calender, Map View and stats.
+<p align='center'>
+<img height="256"  src="fastlane/metadata/android/en-US/images/featureGraphic.png"/>
+</p>
 
-## Getting Started
+<p align='center'>
+Open Source Journaling App with Calender, Map View and stats. 
+</p>
 
-This project is a starting point for a Flutter application.
+<p align='center'>
+    <a href='ttps://play.google.com/store/apps/details?id=com.abhinavmarwaha.wrotto'>
+        <img  height="56"  alt='Get it on Google Play' style="padding-right:8px;" src='https://raw.githubusercontent.com/abhinavmarwaha/curator/master/assets/get-it-on-play-store.png' />
+    </a>
+    <a href='https://f-droid.org/en/packages/com.abhinavmarwaha.wrotto/'>
+        <img height="70" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png">
+    </a>
+    <a href='https://github.com/abhinavmarwaha/wrotto/releases/latest'>
+    <img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png" alt="Get it on Github" height="70">
+    </a>
+</p>
 
-A few resources to get you started if this is your first Flutter project:
+<br>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<p align='center'>
+    <img src="https://img.shields.io/github/license/abhinavmarwaha/wrotto?color=blue"/>
+    <img src="https://img.shields.io/github/v/release/abhinavmarwaha/wrotto?include_prereleases&color=blue"/>
+    <img src="https://img.shields.io/github/downloads/abhinavmarwaha/wrotto/total?color=blue"/>  
+</p>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p align='center'> 
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="270" height="540"/>
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="270" height="540"/>
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="270" height="540"/> 
+</p>
+
+
+# Features:
+
+* journal entry with mood, location and image.
+* Map View
+* Calendar View
+* stats
+* fingerprint security
+* dark mode
+* tags
+
+# Have Suggetions ?
+
+You can add an issue [here](https://github.com/abhinavmarwaha/wrotto/issues) or fill up a google form [here](https://docs.google.com/forms/d/e/1FAIpQLSfiGhbdZuLbXUQznlL8Ss3AcJhX50SXsdrNIcrB7CieILm-1w/viewform?usp=sf_link).
+
+You can contact me at heyabhinav@protonmail.com
+
+# Todo
+
+[Roadmap](https://github.com/abhinavmarwaha/wrotto/projects/1).

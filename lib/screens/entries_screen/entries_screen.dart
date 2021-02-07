@@ -24,7 +24,7 @@ class _EntriesScreenState extends State<EntriesScreen> {
             },
             child: Icon(Icons.add),
           ),
-          body: !provider.initilised
+          body: ! provider.initilised
               ? Center(
                   child: CircularProgressIndicator(),
                 )
