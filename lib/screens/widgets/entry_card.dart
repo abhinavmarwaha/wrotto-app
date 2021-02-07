@@ -46,18 +46,27 @@ class EntryCard extends StatelessWidget {
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
-                SizedBox(
-                  width: 40,
-                  height: 20,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: journalEntry.tags.length,
-                    itemBuilder: (context, _index) => Card(
-                      child: Text(journalEntry.tags[_index]),
+                if (journalEntry.tags != null &&
+                    journalEntry.tags.length != 0 &&
+                    journalEntry.tags.first.compareTo("") != 0)
+                  Expanded(
+                    child: SizedBox(
+                      height: 34,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: journalEntry.tags.length,
+                        itemBuilder: (context, _index) => Card(
+                          color: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(journalEntry.tags[_index]),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(

@@ -1,0 +1,13 @@
+
+final locations = Provider.of<EntriesProvider>(context, listen: false)
+        .journalEntriesHaveLocation;
+    double sumX;
+    double sumY;
+    final length = locations.length;
+    for (int i = 0; i < length; i++) {
+      sumX += locations[i].longitude;
+      sumY += locations[i].latitude;
+    }
+
+    centerX = sumX / length;
+    centerY = sumY / length;

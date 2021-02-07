@@ -78,15 +78,16 @@ class EntriesProvider with ChangeNotifier {
 
       _tags.forEach((tag) {
         if (_journalEntriesbyTag[tag] == null) _journalEntriesbyTag[tag] = [];
-        _journalEntriesbyTag[tag].addAll(journalEntries.where((entry) {
-          entry.tags.forEach((_tag) {
+        _journalEntriesbyTag[tag].addAll(_journalEntriesAll.where((entry) {
+          for (int i = 0; i < entry.tags.length; i++) {
+            final _tag = entry.tags[i];
             if (_tag.compareTo(tag) == 0) return true;
-          });
+          }
           return false;
         }));
       });
 
-      print(journalEntriesAll.first.tags.join(","));
+      // print(journalEntriesAll.first.tags.join(","));
       initilised = true;
       notifyListeners();
     }
@@ -102,7 +103,8 @@ class EntriesProvider with ChangeNotifier {
     _journalEntriesAll.add(journalEntry);
 
     for (int i = 0; i < journalEntry.tags.length; i++) {
-      _journalEntriesbyTag[journalEntry.tags[i]].add(journalEntry);
+      if (journalEntry.tags[i].compareTo("") != 0)
+        _journalEntriesbyTag[journalEntry.tags[i]].add(journalEntry);
     }
 
     if (journalEntry.latitude != null &&
@@ -140,7 +142,9 @@ class EntriesProvider with ChangeNotifier {
   }
 
   void deleteEntryFromLists(JournalEntry journalEntry) {
-    if (journalEntry.tags.first.compareTo("") != 0)
+    if (journalEntry.tags != null &&
+        journalEntry.tags.length != 0 &&
+        journalEntry.tags.first.compareTo("") != 0)
       for (int i = 0; i < journalEntry.tags.length; i++) {
         _journalEntriesbyTag[journalEntry.tags[i]].remove(journalEntry);
       }

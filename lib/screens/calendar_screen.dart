@@ -21,6 +21,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void initState() {
     super.initState();
     _calendarController = CalendarController();
+    _selectedEvents = Provider.of<EntriesProvider>(context, listen: false)
+        .journalEntriesbyDate[Utilities.minimalDate(DateTime.now())];
   }
 
   @override
@@ -38,17 +40,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void _onCalendarCreated(
-      DateTime first, DateTime last, CalendarFormat format) {
-    _selectedEvents = Provider.of<EntriesProvider>(context, listen: false)
-        .journalEntriesbyDate[Utilities.minimalDate(DateTime.now())];
-  }
+      DateTime first, DateTime last, CalendarFormat format) {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<EntriesProvider>(
         builder: (context, provider, child) => SingleChildScrollView(
-                  child: Column(children: [
+          child: Column(children: [
             Padding(
               padding: MediaQuery.of(context).padding,
               child: Card(

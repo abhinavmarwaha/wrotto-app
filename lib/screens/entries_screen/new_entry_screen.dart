@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
+import 'package:location/location.dart';
 import 'package:nominatim_location_picker/nominatim_location_picker.dart';
 import 'package:osm_nominatim/osm_nominatim.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +62,15 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
   String _displayLocationName = "";
 
   Future getLocationWithNominatim() async {
+    var location = Location();
+    bool enabled = await location.serviceEnabled();
+    if (!enabled) {
+      bool gotEnabled = await location.requestService();
+      if (!gotEnabled) {
+        Utilities.showToast("You have to enable GPS");
+        return;
+      }
+    }
     Map result = await showDialog(
         context: context,
         builder: (BuildContext ctx) {
@@ -115,14 +125,18 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
           child: Column(
             children: [
               _pickedLocation != null
-                  ? Expanded(
-                      flex: 1,
-                      child: Text(_displayLocationName),
+                  ? SizedBox(
+                      height: 20,
+                      child: Text(
+                        _displayLocationName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     )
                   : Container(),
               if (provider.tags.length != 0)
-                Expanded(
-                  flex: 2,
+                SizedBox(
+                  height: 64,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.builder(
@@ -141,14 +155,26 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                provider.tags[index],
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: selectedTags
-                                            .contains(provider.tags[index])
-                                        ? Colors.black
-                                        : Colors.grey),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(
+                                        color: selectedTags
+                                                .contains(provider.tags[index])
+                                            ? Colors.black
+                                            : Colors.grey)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    provider.tags[index],
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: selectedTags
+                                                .contains(provider.tags[index])
+                                            ? Colors.black
+                                            : Colors.grey),
+                                  ),
+                                ),
                               ),
                             ));
                       },
@@ -157,8 +183,8 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                     ),
                   ),
                 ),
-              Expanded(
-                flex: 2,
+              SizedBox(
+                height: 32,
                 child: Row(
                   children: [
                     Text(Utilities.beautifulDate(_dateTime)),
@@ -209,8 +235,8 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                   ],
                 ),
               ),
-              Expanded(
-                flex: 2,
+              SizedBox(
+                height: 64,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                   child: TextField(
@@ -231,7 +257,6 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                 ),
               ),
               Expanded(
-                flex: 10,
                 child: TextField(
                   controller: _textController,
                   style: TextStyle(color: Colors.black.withOpacity(0.6)),
@@ -247,8 +272,8 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                       hintText: "Text"),
                 ),
               ),
-              Expanded(
-                flex: 4,
+              SizedBox(
+                height: 74,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(

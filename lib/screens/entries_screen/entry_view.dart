@@ -37,7 +37,10 @@ class EntryView extends StatelessWidget {
                       .deleteJournalEntry(journalEntry)
                       .then((value) => Navigator.of(context).pop());
                 },
-                child: Icon(Icons.delete)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.delete),
+                )),
             if (journalEntry.medias.length != 0 &&
                 journalEntry.medias.first.compareTo("") != 0)
               GestureDetector(
@@ -89,14 +92,14 @@ class EntryView extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 Utilities.beautifulDate(journalEntry.date),
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 journalEntry.locationDisplayName ?? "",
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
             ),
             SizedBox(

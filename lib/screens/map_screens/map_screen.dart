@@ -50,7 +50,8 @@ class _MapScreenState extends State<MapScreen> {
                                         builder: (ctx) =>
                                             EntryView(journalEntry: entry)));
                               },
-                              child: entry.medias.length != 0
+                              child: entry.medias.length != 0 &&
+                                      entry.medias.first.compareTo("") != 0
                                   ? Image.file(
                                       File(entry.medias.first),
                                     )

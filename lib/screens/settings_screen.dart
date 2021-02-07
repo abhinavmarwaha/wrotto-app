@@ -44,31 +44,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       body: ListView(
         children: <Widget>[
-          Card(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.mood),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text("Dark Mode"),
-                  Spacer(),
-                  Switch(
-                    onChanged: (val) {
-                      setState(() {
-                        _darkMode = val;
-                        _themeChanger.setDarkMode(_darkMode);
-                      });
-                    },
-                    value: _darkMode,
-                  )
-                ],
-              ),
-            ),
-          ),
+          // Card(
+          //   child: Padding(
+          //     padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: <Widget>[
+          //         Icon(Icons.mood),
+          //         SizedBox(
+          //           width: 10,
+          //         ),
+          //         Text("Dark Mode"),
+          //         Spacer(),
+          //         Switch(
+          //           onChanged: (val) {
+          //             setState(() {
+          //               _darkMode = val;
+          //               _themeChanger.setDarkMode(_darkMode);
+          //             });
+          //           },
+          //           value: _darkMode,
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),
           Consumer<AuthProvider>(
             builder: (context, provider, child) => Card(
               child: Padding(
