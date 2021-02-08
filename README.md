@@ -28,10 +28,10 @@ Open Source Journaling App with Calender, Map View and stats.
 </p>
 
 <p align='center'> 
-    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="270" height="540"/>
-    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="270" height="540"/>
-    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="270" height="540"/> 
-    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="270" height="540"/>
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="308" height="548"/>
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="308" height="548"/>
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="308" height="548"/> 
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="308" height="548"/>
 </p>
 
 
