@@ -237,7 +237,7 @@ class _StatsScreenState extends State<StatsScreen> {
           );
         case 3:
           return PieChartSectionData(
-            color: const Color(0xff13d38e),
+            color: Colors.red.withOpacity(0.5),
             value: provider.moodPercentages[3],
             title: provider.moodPercentages[3].toInt().toString() + '% 🙂',
             radius: radius,

@@ -9,12 +9,12 @@ Open Source Journaling App with Calender, Map View and stats.
 </p>
 
 <p align='center'>
-    <a href='ttps://play.google.com/store/apps/details?id=com.abhinavmarwaha.wrotto'>
+    <!-- <a href='ttps://play.google.com/store/apps/details?id=com.abhinavmarwaha.wrotto'>
         <img  height="56"  alt='Get it on Google Play' style="padding-right:8px;" src='https://raw.githubusercontent.com/abhinavmarwaha/curator/master/assets/get-it-on-play-store.png' />
     </a>
     <a href='https://f-droid.org/en/packages/com.abhinavmarwaha.wrotto/'>
         <img height="70" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png">
-    </a>
+    </a> -->
     <a href='https://github.com/abhinavmarwaha/wrotto/releases/latest'>
     <img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png" alt="Get it on Github" height="70">
     </a>
@@ -25,13 +25,13 @@ Open Source Journaling App with Calender, Map View and stats.
 <p align='center'>
     <img src="https://img.shields.io/github/license/abhinavmarwaha/wrotto?color=blue"/>
     <img src="https://img.shields.io/github/v/release/abhinavmarwaha/wrotto?include_prereleases&color=blue"/>
-    <img src="https://img.shields.io/github/downloads/abhinavmarwaha/wrotto/total?color=blue"/>  
 </p>
 
 <p align='center'> 
     <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="270" height="540"/>
     <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="270" height="540"/>
-    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="270" height="540"/> 
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="270" height="540"/> 
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="270" height="540"/>
 </p>
 
 
