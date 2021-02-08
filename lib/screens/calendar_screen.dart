@@ -22,7 +22,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     super.initState();
     _calendarController = CalendarController();
     _selectedEvents = Provider.of<EntriesProvider>(context, listen: false)
-        .journalEntriesbyDate[Utilities.minimalDate(DateTime.now())];
+            .journalEntriesbyDate[Utilities.minimalDate(DateTime.now())] ??
+        [];
   }
 
   @override

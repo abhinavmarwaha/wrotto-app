@@ -43,14 +43,15 @@ class DbHelper {
 
   // Create
 
-  Future<void> insertJournalEntry(JournalEntry journalEntry) async {
+  Future<int> insertJournalEntry(JournalEntry journalEntry) async {
     final Database db = await getdb;
 
-    await db.insert(
+    int id = await db.insert(
       JOURNALENTRY,
       journalEntry.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    return id;
   }
 
   // Read
@@ -75,7 +76,7 @@ class DbHelper {
       whereArgs: [journalEntry.id],
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-  }
+  } 
 
   // Delete
 

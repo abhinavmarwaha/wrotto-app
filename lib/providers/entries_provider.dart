@@ -102,6 +102,11 @@ class EntriesProvider with ChangeNotifier {
   addEntryToLists(JournalEntry journalEntry) {
     _journalEntriesAll.add(journalEntry);
 
+    print("Added: " +
+        journalEntry.toJson() +
+        "  no.: " +
+        journalEntriesAll.length.toString());
+
     for (int i = 0; i < journalEntry.tags.length; i++) {
       if (journalEntry.tags[i].compareTo("") != 0)
         _journalEntriesbyTag[journalEntry.tags[i]].add(journalEntry);
@@ -127,7 +132,8 @@ class EntriesProvider with ChangeNotifier {
   }
 
   Future<void> insertJournalEntry(JournalEntry journalEntry) async {
-    await _dbHelper.insertJournalEntry(journalEntry);
+    int id = await _dbHelper.insertJournalEntry(journalEntry);
+    journalEntry = journalEntry.copyWith(id: id);
     addEntryToLists(journalEntry);
     notifyListeners();
   }
@@ -146,26 +152,33 @@ class EntriesProvider with ChangeNotifier {
         journalEntry.tags.length != 0 &&
         journalEntry.tags.first.compareTo("") != 0)
       for (int i = 0; i < journalEntry.tags.length; i++) {
-        _journalEntriesbyTag[journalEntry.tags[i]].remove(journalEntry);
+        _journalEntriesbyTag[journalEntry.tags[i]].removeWhere((entry) => entry.id == journalEntry.id);
       }
-    _journalEntriesAll.remove(journalEntry);
+    _journalEntriesAll.removeWhere((entry) => entry.id == journalEntry.id);
+    print("removed: " +
+        journalEntry.toJson() +
+        "  no.: " +
+        journalEntriesAll.length.toString());
 
     if (journalEntry.latitude != null &&
         journalEntry.longitude != null &&
         journalEntry.locationDisplayName != null &&
         journalEntry.locationDisplayName.compareTo("") != 0)
-      _journalEntriesHaveLocation.remove(journalEntry);
+      _journalEntriesHaveLocation
+          .removeWhere((entry) => entry.id == journalEntry.id);
 
     if (journalEntry.medias.length != 0 &&
         journalEntry.medias.first.compareTo("") != 0)
-      _journalEntriesHaveMedia.remove(journalEntry);
+      _journalEntriesHaveMedia
+          .removeWhere((entry) => entry.id == journalEntry.id);
 
-    _journalEntriesbyByMood[journalEntry.mood].remove(journalEntry);
+    _journalEntriesbyByMood[journalEntry.mood]
+        .removeWhere((entry) => entry.id == journalEntry.id);
 
     initMoodPercentages();
 
     _journalEntriesbyDate[Utilities.minimalDate(journalEntry.date)]
-        .remove(journalEntry);
+        .removeWhere((entry) => entry.id == journalEntry.id);
   }
 
   Future deleteJournalEntry(JournalEntry journalEntry) async {

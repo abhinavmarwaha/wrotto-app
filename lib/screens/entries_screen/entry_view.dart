@@ -19,6 +19,7 @@ class EntryView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          Navigator.pop(context);
           Navigator.of(context).push(MaterialPageRoute(
               builder: (ctx) => NewEntryScreen(
                     journalEntry: journalEntry,
