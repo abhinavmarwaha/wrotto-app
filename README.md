@@ -52,4 +52,4 @@ You can contact me at heyabhinav@protonmail.com
 
 # Todo
 
-[Roadmap](https://github.com/abhinavmarwaha/wrotto/projects/1).
+[Roadmap](https://github.com/abhinavmarwaha/wrotto-app/projects/1).
