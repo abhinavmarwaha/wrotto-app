@@ -53,3 +53,15 @@ You can contact me at heyabhinav@protonmail.com
 # Todo
 
 [Roadmap](https://github.com/abhinavmarwaha/wrotto-app/projects/1).
+
+# You can suppport me at:
+
+<noscript><a href="https://liberapay.com/abhinavmarwaha/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript><a href="https://www.buymeacoffee.com/abhinavmarwaha" target="_blank">
+  
+<img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174">
+</a>
+
+Bitcoin : 35Tzo8hTsggF2YENmBUc4ZiMjCKNYjgmHH
+
+Ethereum : 0x8a7efa455a1c2e44dd4ff3aeccb36f1f840c677e
+
