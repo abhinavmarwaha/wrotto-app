@@ -42,7 +42,6 @@ Open Source Journaling App with Calender, Map View and stats.
 * Calendar View
 * stats
 * fingerprint lock
-* dark mode
 * tags
 
 # Have Suggetions ?
