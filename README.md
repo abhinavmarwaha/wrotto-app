@@ -9,10 +9,10 @@ Open Source Journaling App with Calender, Map View and stats.
 </p>
 
 <p align='center'>
-    <!-- <a href='ttps://play.google.com/store/apps/details?id=com.abhinavmarwaha.wrotto-app'>
+    <a href='ttps://play.google.com/store/apps/details?id=com.abhinavmarwaha.wrotto-app'>
         <img  height="56"  alt='Get it on Google Play' style="padding-right:8px;" src='https://raw.githubusercontent.com/abhinavmarwaha/curator/master/assets/get-it-on-play-store.png' />
     </a>
-    <a href='https://f-droid.org/en/packages/com.abhinavmarwaha.wrotto-app/'>
+    <!-- <a href='https://f-droid.org/en/packages/com.abhinavmarwaha.wrotto-app/'>
         <img height="70" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png">
     </a> -->
     <a href='https://github.com/abhinavmarwaha/wrotto-app/releases/latest'>
