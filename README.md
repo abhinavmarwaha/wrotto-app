@@ -9,13 +9,13 @@ Open Source Journaling App with Calender, Map View and stats.
 </p>
 
 <p align='center'>
-    <!-- <a href='ttps://play.google.com/store/apps/details?id=com.abhinavmarwaha.wrotto'>
+    <!-- <a href='ttps://play.google.com/store/apps/details?id=com.abhinavmarwaha.wrotto-app'>
         <img  height="56"  alt='Get it on Google Play' style="padding-right:8px;" src='https://raw.githubusercontent.com/abhinavmarwaha/curator/master/assets/get-it-on-play-store.png' />
     </a>
-    <a href='https://f-droid.org/en/packages/com.abhinavmarwaha.wrotto/'>
+    <a href='https://f-droid.org/en/packages/com.abhinavmarwaha.wrotto-app/'>
         <img height="70" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png">
     </a> -->
-    <a href='https://github.com/abhinavmarwaha/wrotto/releases/latest'>
+    <a href='https://github.com/abhinavmarwaha/wrotto-app/releases/latest'>
     <img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png" alt="Get it on Github" height="70">
     </a>
 </p>
@@ -23,8 +23,8 @@ Open Source Journaling App with Calender, Map View and stats.
 <br>
 
 <p align='center'>
-    <img src="https://img.shields.io/github/license/abhinavmarwaha/wrotto?color=blue"/>
-    <img src="https://img.shields.io/github/v/release/abhinavmarwaha/wrotto?include_prereleases&color=blue"/>
+    <img src="https://img.shields.io/github/license/abhinavmarwaha/wrotto-app?color=blue"/>
+    <img src="https://img.shields.io/github/v/release/abhinavmarwaha/wrotto-app?include_prereleases&color=blue"/>
 </p>
 
 <p align='center'> 
