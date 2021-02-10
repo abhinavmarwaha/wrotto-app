@@ -1,11 +1,8 @@
 Features:
-    All data is in local database
-    Runs on mobile, no need of external server
-    Rss and Atom
-    Dark Mode
-    Read/unread
-    Bookmark
-    Zen Reader (Experimental)
-    Podcast Support
-    Hold to view the summary of rss feed item
-    Categories
+
+journal entry with mood, location and image.
+Map View
+Calendar View
+stats
+fingerprint lock
+tags
