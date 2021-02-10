@@ -38,6 +38,7 @@ dependencies:
   path_provider: ^1.6.27
   permission_handler: ^5.1.0+2
   url_launcher: ^5.7.10
+  http: ^0.12.2
 
   # security
   local_auth: ^0.6.3+4

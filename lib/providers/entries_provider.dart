@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:wrotto/models/journal_entry.dart';
 import 'package:wrotto/models/mood.dart';
 import 'package:wrotto/services/db_helper.dart';
+import 'package:wrotto/utils/exportToJson.dart';
 import 'package:wrotto/utils/utilities.dart';
 
 class EntriesProvider with ChangeNotifier {
@@ -87,7 +88,7 @@ class EntriesProvider with ChangeNotifier {
         }));
       });
 
-      // print(journalEntriesAll.first.tags.join(","));
+      print(ExportToJson(journalEntriesAll).jsonResult());
       initilised = true;
       notifyListeners();
     }
@@ -152,7 +153,8 @@ class EntriesProvider with ChangeNotifier {
         journalEntry.tags.length != 0 &&
         journalEntry.tags.first.compareTo("") != 0)
       for (int i = 0; i < journalEntry.tags.length; i++) {
-        _journalEntriesbyTag[journalEntry.tags[i]].removeWhere((entry) => entry.id == journalEntry.id);
+        _journalEntriesbyTag[journalEntry.tags[i]]
+            .removeWhere((entry) => entry.id == journalEntry.id);
       }
     _journalEntriesAll.removeWhere((entry) => entry.id == journalEntry.id);
     print("removed: " +

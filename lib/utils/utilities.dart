@@ -16,6 +16,17 @@ class Utilities {
         fontSize: 16.0);
   }
 
+  static showInfoToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
   static DateTime minimalDate(DateTime _date) =>
       DateTime(_date.year, _date.month, _date.day);
 
@@ -28,7 +39,7 @@ class Utilities {
   static String beautifulDate(DateTime date) {
     return weekdays[date.weekday - 1] +
         " , " +
-        months[date.month] +
+        months[date.month-1] +
         " " +
         date.day.toString() +
         " , " +

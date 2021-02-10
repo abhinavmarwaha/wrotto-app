@@ -3,8 +3,12 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:wrotto/constants/strings.dart';
 import 'package:wrotto/providers/auth_provider.dart';
+import 'package:wrotto/providers/entries_provider.dart';
 import 'package:wrotto/services/theme_changer.dart';
+import 'package:wrotto/utils/exportToJson.dart';
+import 'package:wrotto/utils/saveFile.dart';
 import 'package:wrotto/utils/utilities.dart';
+import 'package:http/http.dart' as http;
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -127,8 +131,109 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
+          // Card(
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       openBackupDialog();
+          //     },
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Row(children: [
+          //         Icon(Icons.backup),
+          //         SizedBox(
+          //           width: 10,
+          //         ),
+          //         Text("Backup to Server")
+          //       ]),
+          //     ),
+          //   ),
+          // ),
+          // Card(
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       exportJson();
+          //     },
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Row(children: [
+          //         Icon(Icons.file_copy),
+          //         SizedBox(
+          //           width: 10,
+          //         ),
+          //         Text("Export to Json")
+          //       ]),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
+    );
+  }
+
+  exportJson() {
+    String json = ExportToJson(
+            Provider.of<EntriesProvider>(context, listen: false)
+                .journalEntriesAll
+                .where((element) => !element.synchronised)
+                .toList())
+        .jsonResult();
+    saveJson(json)
+        .then((value) => Utilities.showInfoToast("Json exported to " + value));
+  }
+
+  openBackupDialog() {
+    TextEditingController serverText = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(child: StatefulBuilder(builder: (context, setState) {
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: SizedBox(
+                height: 120,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: TextField(
+                          controller: serverText,
+                          decoration: InputDecoration(
+                              border: InputBorder.none, hintText: 'ip:port'),
+                        ),
+                      ),
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        String json = ExportToJson(Provider.of<EntriesProvider>(
+                                    context,
+                                    listen: false)
+                                .journalEntriesAll
+                                .where((element) => !element.synchronised)
+                                .toList())
+                            .jsonResult();
+
+                        backupPosts(json, serverText.text)
+                            .then((value) => Navigator.pop(context));
+                      },
+                      child: Text("Export"),
+                    )
+                  ],
+                ),
+              ));
+        }));
+      },
+    );
+  }
+
+  Future<http.Response> backupPosts(String json, String server) {
+    return http.post(
+      Uri.http(server, 'api/backupEntries/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json,
     );
   }
 

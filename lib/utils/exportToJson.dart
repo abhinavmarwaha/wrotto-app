@@ -1,17 +1,12 @@
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:wrotto/providers/entries_provider.dart';
+import 'package:wrotto/models/journal_entry.dart';
 
 class ExportToJson {
-  final BuildContext context;
+  final List<JournalEntry> journalEntriesAll;
 
-  ExportToJson(this.context);
+  ExportToJson(this.journalEntriesAll);
 
   String jsonResult() {
-    String json = Provider.of<EntriesProvider>(context)
-        .journalEntriesAll
-        .map((e) => e.toJson())
-        .join(",");
+    String json = journalEntriesAll.map((e) => e.toJson()).join(",");
     json = "[" + json + "]";
     return json;
   }
