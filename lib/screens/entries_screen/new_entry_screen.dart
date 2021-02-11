@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:gps/gps.dart';
 import 'package:latlong/latlong.dart';
 import 'package:location/location.dart';
 import 'package:nominatim_location_picker/nominatim_location_picker.dart';
@@ -62,6 +63,13 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
   String _displayLocationName = "";
 
   Future getLocationWithNominatim() async {
+    // print('location');
+    // try {
+    //   var latlng = await Gps.currentGps();
+    // } catch (e) {
+    //   print(e);
+    // }
+    // print('location2');
     var location = Location();
     bool enabled = await location.serviceEnabled();
     if (!enabled) {
@@ -71,6 +79,9 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
         return;
       }
     }
+
+    // Utilities.showInfoToast("Don't forget to on the GPS!");
+
     Map result = await showDialog(
         context: context,
         builder: (BuildContext ctx) {
