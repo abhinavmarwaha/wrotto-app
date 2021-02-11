@@ -44,7 +44,7 @@ Open Source Journaling App with Calender, Map View and stats.
 * fingerprint lock
 * tags
 
-# Have Suggetions ?
+# Have Suggestions ?
 
 You can add an issue [here](https://github.com/abhinavmarwaha/wrotto-app/issues) or fill up a google form [here](https://docs.google.com/forms/d/e/1FAIpQLSfiGhbdZuLbXUQznlL8Ss3AcJhX50SXsdrNIcrB7CieILm-1w/viewform?usp=sf_link).
 
