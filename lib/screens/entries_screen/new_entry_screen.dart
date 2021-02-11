@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:gps/gps.dart';
 import 'package:latlong/latlong.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'package:osm_nominatim/osm_nominatim.dart';
 import 'package:provider/provider.dart';
 import 'package:wrotto/location/picker.dart';
@@ -70,17 +70,17 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
     //   print(e);
     // }
     // print('location2');
-    var location = Location();
-    bool enabled = await location.serviceEnabled();
-    if (!enabled) {
-      bool gotEnabled = await location.requestService();
-      if (!gotEnabled) {
-        Utilities.showToast("You have to enable GPS");
-        return;
-      }
-    }
+    // var location = Location();
+    // bool enabled = await location.serviceEnabled();
+    // if (!enabled) {
+    //   bool gotEnabled = await location.requestService();
+    //   if (!gotEnabled) {
+    //     Utilities.showToast("You have to enable GPS");
+    //     return;
+    //   }
+    // }
 
-    // Utilities.showInfoToast("Don't forget to on the GPS!");
+    Utilities.showInfoToast("Don't forget to on the GPS!");
 
     Map result = await showDialog(
         context: context,
