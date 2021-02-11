@@ -17,16 +17,16 @@ dependencies:
   # UI
   fluttertoast: ^7.1.6
   table_calendar: ^2.3.3
-  latlong: ^0.6.1
   fl_chart: ^0.12.2
   # zefyr: ^0.12.0
 
   # maps
   flutter_map: ^0.9.0
-  nominatim_location_picker: ^0.1.0+7 # depends on geolocator
+  # nominatim_location_picker: ^0.1.0+7 # depends on geolocator
   osm_nominatim: ^1.0.1
   location: ^3.2.4
-  # gps: ^0.1.1
+  gps: ^0.1.1
+  latlong: ^0.6.1
 
   # Services
   sqflite: ^1.3.2+3
