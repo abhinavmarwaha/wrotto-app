@@ -1,4 +1,4 @@
-// reminder notification
+reminder notification
 UI fixes
 Custom date and time 
 export to json
