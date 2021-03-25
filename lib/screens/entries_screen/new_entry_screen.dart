@@ -30,6 +30,36 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
   Mood selectedMood;
   List<String> files;
 
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2019, 1),
+        lastDate: DateTime(2111));
+    if (picked != null)
+      setState(() {
+        selectedDate = picked;
+        _dateTime = DateTime(selectedDate.year, selectedDate.month,
+            selectedDate.day, _dateTime.hour, _dateTime.minute);
+      });
+  }
+
+  Future<Null> _selectTime(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (picked != null)
+      setState(() {
+        selectedTime = picked;
+        _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
+            selectedTime.hour, selectedTime.minute);
+      });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -198,7 +228,17 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                 height: 32,
                 child: Row(
                   children: [
-                    Text(Utilities.beautifulDate(_dateTime)),
+                    Row(children: [
+                      GestureDetector(
+                          onTap: () => _selectDate(context),
+                          child: Text(Utilities.beautifulDate(_dateTime)
+                              .split("at")[0])),
+                      Text(" at "),
+                      GestureDetector(
+                          onTap: () => _selectTime(context),
+                          child: Text(Utilities.beautifulDate(_dateTime)
+                              .split("at")[1]))
+                    ]),
                     Spacer(),
                     GestureDetector(
                       onTap: () {
@@ -247,7 +287,7 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                 ),
               ),
               SizedBox(
-                height: 64,
+                height: 78,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                   child: TextField(

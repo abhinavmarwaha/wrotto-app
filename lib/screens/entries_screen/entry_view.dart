@@ -120,26 +120,35 @@ class EntryView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
               ),
             ),
-            Row(children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  journalEntry.title,
-                  style: TextStyle(fontSize: 36),
-                ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                height: 82,
+                child: Row(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      journalEntry.title,
+                      style: TextStyle(fontSize: 36),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      journalEntry.mood.toEmoji(),
+                      style: TextStyle(fontSize: 26),
+                    ),
+                  )
+                ]),
               ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  journalEntry.mood.toEmoji(),
-                  style: TextStyle(fontSize: 26),
-                ),
-              )
-            ]),
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(journalEntry.text))
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(journalEntry.text)),
+              ),
+            )
           ],
         ),
       ),
