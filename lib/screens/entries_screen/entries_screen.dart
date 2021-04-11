@@ -4,6 +4,7 @@ import 'package:wrotto/providers/entries_provider.dart';
 import 'package:wrotto/screens/entries_screen/new_entry_screen.dart';
 import 'package:wrotto/screens/settings_screen.dart';
 import 'package:wrotto/screens/widgets/entry_card.dart';
+import 'package:wrotto/services/theme_changer.dart';
 import 'package:wrotto/utils/utilities.dart';
 
 class EntriesScreen extends StatefulWidget {
@@ -13,8 +14,10 @@ class EntriesScreen extends StatefulWidget {
 class _EntriesScreenState extends State<EntriesScreen> {
   String selectedTag = "All";
   int selectedTagIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<ThemeChanger>(context).getDarkModeVar();
     return Consumer<EntriesProvider>(
       builder: (context, provider, child) => Scaffold(
           floatingActionButton: FloatingActionButton(
@@ -24,7 +27,7 @@ class _EntriesScreenState extends State<EntriesScreen> {
             },
             child: Icon(Icons.add),
           ),
-          body: ! provider.initilised
+          body: !provider.initilised
               ? Center(
                   child: CircularProgressIndicator(),
                 )
@@ -97,7 +100,9 @@ class _EntriesScreenState extends State<EntriesScreen> {
                                                                 provider.tags[
                                                                     index]) ==
                                                             0
-                                                        ? Colors.black
+                                                        ? darkMode
+                                                            ? Colors.white
+                                                            : Colors.black
                                                         : Colors.grey),
                                               ),
                                             )),
@@ -114,9 +119,9 @@ class _EntriesScreenState extends State<EntriesScreen> {
                       Expanded(
                         child: ListView.builder(
                           itemBuilder: (context, index) => EntryCard(
-                                journalEntry: provider
-                                    .getjournalEntries(selectedTag)[index],
-                              ),
+                            journalEntry:
+                                provider.getjournalEntries(selectedTag)[index],
+                          ),
                           itemCount:
                               provider.getjournalEntries(selectedTag).length,
                         ),

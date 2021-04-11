@@ -72,8 +72,6 @@ class EntryView extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      index = index;
-                      print(index);
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(

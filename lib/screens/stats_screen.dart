@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wrotto/models/mood.dart';
 import 'package:wrotto/providers/entries_provider.dart';
+import 'package:wrotto/services/theme_changer.dart';
 import 'package:wrotto/utils/utilities.dart';
 
 class StatsScreen extends StatefulWidget {
@@ -12,9 +13,11 @@ class StatsScreen extends StatefulWidget {
 
 class _StatsScreenState extends State<StatsScreen> {
   int touchedIndex;
+  bool darkMode;
 
   @override
   Widget build(BuildContext context) {
+    darkMode = Provider.of<ThemeChanger>(context).getDarkModeVar();
     return Scaffold(
         body: Consumer<EntriesProvider>(
       builder: (context, provider, child) => Padding(
@@ -211,7 +214,7 @@ class _StatsScreenState extends State<StatsScreen> {
             titleStyle: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: Colors.black),
+                color: darkMode ? Colors.white : Colors.black),
           );
         case 1:
           return PieChartSectionData(
@@ -222,7 +225,7 @@ class _StatsScreenState extends State<StatsScreen> {
             titleStyle: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: Colors.black),
+                color: darkMode ? Colors.white : Colors.black),
           );
         case 2:
           return PieChartSectionData(
@@ -233,7 +236,7 @@ class _StatsScreenState extends State<StatsScreen> {
             titleStyle: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: Colors.black),
+                color: darkMode ? Colors.white : Colors.black),
           );
         case 3:
           return PieChartSectionData(
@@ -244,7 +247,7 @@ class _StatsScreenState extends State<StatsScreen> {
             titleStyle: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: Colors.black),
+                color:darkMode ? Colors.white : Colors.black),
           );
         case 4:
           return PieChartSectionData(
@@ -255,7 +258,7 @@ class _StatsScreenState extends State<StatsScreen> {
             titleStyle: TextStyle(
                 fontSize: fontSize,
                 fontWeight: FontWeight.bold,
-                color: Colors.black),
+                color: darkMode ? Colors.white : Colors.black),
           );
         default:
           return null;

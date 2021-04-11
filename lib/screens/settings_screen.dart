@@ -31,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void initState() {
-    ThemeChanger.getDarkModePlainBool().then((value) {
+    ThemeChanger().getDarkModePlainBool().then((value) {
       setState(() {
         _darkMode = value;
       });

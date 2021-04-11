@@ -39,15 +39,15 @@ class ThemeChanger with ChangeNotifier {
 
   Future<ThemeData> getDarkModePlain() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool darkMode;
+    // bool darkMode;
     if (prefs.containsKey('darkMode'))
-      darkMode = prefs.getBool('darkMode');
+      _darkMode = prefs.getBool('darkMode');
     else {
       await prefs.setBool('darkMode', false);
-      darkMode = false;
+      _darkMode = false;
     }
     ThemeData themeData;
-    if (darkMode) {
+    if (_darkMode) {
       themeData = ThemeData.dark();
     } else {
       themeData = ThemeData.light();
@@ -55,15 +55,15 @@ class ThemeChanger with ChangeNotifier {
     return themeData;
   }
 
-  static Future<bool> getDarkModePlainBool() async {
+  Future<bool> getDarkModePlainBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool darkMode;
+    // bool darkMode;
     if (prefs.containsKey('darkMode'))
-      darkMode = prefs.getBool('darkMode');
+      _darkMode = prefs.getBool('darkMode');
     else {
       await prefs.setBool('darkMode', false);
-      darkMode = false;
+      _darkMode = false;
     }
-    return darkMode;
+    return _darkMode;
   }
 }

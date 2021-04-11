@@ -13,6 +13,7 @@ import 'package:wrotto/models/journal_entry.dart';
 import 'package:wrotto/models/mood.dart';
 import 'package:wrotto/providers/entries_provider.dart';
 import 'package:wrotto/screens/entries_screen/entry_view.dart';
+import 'package:wrotto/services/theme_changer.dart';
 import 'package:wrotto/utils/utilities.dart';
 
 class NewEntryScreen extends StatefulWidget {
@@ -155,8 +156,9 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<ThemeChanger>(context).getDarkModeVar();
     return Consumer<EntriesProvider>(builder: (context, provider, child) {
-      print(provider.tags.join(","));
+      // print(provider.tags.join(","));
       return Scaffold(
           // resizeToAvoidBottomInset: false,
           body: Padding(
@@ -183,7 +185,6 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                     child: ListView.builder(
                       itemBuilder: (context, index) {
                         index = index + 1;
-                        print(index);
                         return GestureDetector(
                             onTap: () {
                               setState(() {
@@ -202,7 +203,9 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                                     border: Border.all(
                                         color: selectedTags
                                                 .contains(provider.tags[index])
-                                            ? Colors.black
+                                            ? darkMode
+                                                ? Colors.white
+                                                : Colors.black
                                             : Colors.grey)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(4.0),
@@ -212,7 +215,9 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                                         fontSize: 18,
                                         color: selectedTags
                                                 .contains(provider.tags[index])
-                                            ? Colors.black
+                                            ? darkMode
+                                                ? Colors.white
+                                                : Colors.black
                                             : Colors.grey),
                                   ),
                                 ),
@@ -242,7 +247,7 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                     Spacer(),
                     GestureDetector(
                       onTap: () {
-                        final journalEntry = JournalEntry(
+                        JournalEntry journalEntry = JournalEntry(
                             id: widget.journalEntry?.id,
                             date: _dateTime,
                             text: _textController.text,
@@ -269,6 +274,7 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                           provider
                               .insertJournalEntry(journalEntry)
                               .then((value) {
+                            journalEntry = journalEntry.copyWith(id: value);
                             Navigator.pop(context);
                             Navigator.push(
                                 context,
@@ -310,7 +316,10 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
               Expanded(
                 child: TextField(
                   controller: _textController,
-                  style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                  style: TextStyle(
+                      color: darkMode
+                          ? Colors.white.withOpacity(0.6)
+                          : Colors.black.withOpacity(0.6)),
                   maxLines: 35,
                   decoration: InputDecoration(
                       border: InputBorder.none,

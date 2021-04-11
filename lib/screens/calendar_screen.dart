@@ -33,10 +33,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void _onDaySelected(DateTime day, List events, List holidays) {
-    print('CALLBACK: _onDaySelected');
     setState(() {
       _selectedEvents = List<JournalEntry>.from(events);
-      print(_selectedEvents.length);
     });
   }
 

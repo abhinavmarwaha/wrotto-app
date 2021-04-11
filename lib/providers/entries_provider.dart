@@ -88,7 +88,7 @@ class EntriesProvider with ChangeNotifier {
         }));
       });
 
-      print(ExportToJson(journalEntriesAll).jsonResult());
+      // print(ExportToJson(journalEntriesAll).jsonResult());
       initilised = true;
       notifyListeners();
     }
@@ -132,11 +132,12 @@ class EntriesProvider with ChangeNotifier {
         .add(journalEntry);
   }
 
-  Future<void> insertJournalEntry(JournalEntry journalEntry) async {
+  Future<int> insertJournalEntry(JournalEntry journalEntry) async {
     int id = await _dbHelper.insertJournalEntry(journalEntry);
     journalEntry = journalEntry.copyWith(id: id);
     addEntryToLists(journalEntry);
     notifyListeners();
+    return id;
   }
 
   Future<void> editJournalEntry(JournalEntry journalEntry) async {
@@ -144,7 +145,7 @@ class EntriesProvider with ChangeNotifier {
 
     deleteEntryFromLists(journalEntry);
     addEntryToLists(journalEntry);
-
+    // initMoodPercentages();
     notifyListeners();
   }
 

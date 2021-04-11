@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:wrotto/screens/medias_screen.dart';
 import 'package:wrotto/screens/calendar_screen.dart';
 import 'package:wrotto/screens/entries_screen/entries_screen.dart';
 import 'package:wrotto/screens/map_screens/map_screen.dart';
 import 'package:wrotto/screens/stats_screen.dart';
 import 'package:wrotto/services/db_helper.dart';
+import 'package:wrotto/services/theme_changer.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -34,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final darkMode = Provider.of<ThemeChanger>(context).getDarkModeVar();
     return WillPopScope(
       onWillPop: () {
         return SystemChannels.platform.invokeMethod('SystemNavigator.pop');
@@ -56,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       StatsScreen(),
                     ]))),
         bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: darkMode ? Colors.white : Colors.black,
           currentIndex: _currentIndex,
           onTap: (index) {
             setState(() => _currentIndex = index);
@@ -66,35 +70,36 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.edit,
-                color: Colors.black,
+                color: darkMode ? Colors.white : Colors.black,
               ),
               label: "Entries",
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.calendar_today,
-                color: Colors.black,
+                color: darkMode ? Colors.white : Colors.black,
               ),
               label: "Calendar",
             ),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.map,
-                  color: Colors.black,
+                  color: darkMode ? Colors.white : Colors.black,
                 ),
                 label: "Map"),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.perm_media,
-                  color: Colors.black,
+                  color: darkMode ? Colors.white : Colors.black,
                 ),
                 label: "Media"),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.graphic_eq,
-                  color: Colors.black,
-                ),
-                label: "Stats"),
+              icon: Icon(
+                Icons.graphic_eq,
+                color: darkMode ? Colors.white : Colors.black,
+              ),
+              label: "Stats",
+            ),
           ],
         ),
       ),

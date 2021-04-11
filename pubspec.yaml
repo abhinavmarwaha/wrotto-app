@@ -3,7 +3,7 @@ description: Open Source Journal App with Calender, Map View and stats.
 
 publish_to: 'none'
 
-version: 0.6.0+5
+version: 0.6.1+6
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

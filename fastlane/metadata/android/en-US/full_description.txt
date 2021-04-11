@@ -6,3 +6,7 @@ Calendar View
 stats
 fingerprint lock
 tags
+Reminder Notification
+Export to Json
+export to server
+Dark mode

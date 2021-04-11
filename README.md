@@ -43,8 +43,10 @@ Open Source Journaling App with Calender, Map View and stats.
 * stats
 * fingerprint lock
 * tags
-* Reminder
+* Reminder Notification
 * Export to Json
+* export to server
+* Dark mode
 
 # Have Suggestions ?
 
